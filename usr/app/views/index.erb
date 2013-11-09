@@ -1,0 +1,44 @@
+<div class="row notifications">
+  <% if application['data']['keep_deployments'].to_i == 1 %>
+    <div class="alert alert-warning">
+      Your application configuration currently enable just one deployments at the time. You can increase the number
+      of deployments to keep by using: <code>$ rhc configure-app --keep-deployments 10 --app <%=ENV['OPENSHIFT_APP_NAME']%></code>.
+    </div>
+  <% end %>
+    <div id="info" class="alert alert-info" style="display:none;"></div>
+</div>
+<div class="row">
+  <div class="col-sm-12">
+    <% deployments['data'].sort_by { |d| d['created_at'] }.reverse.each do |d| %>
+      <% commit_data = commit(d['sha1']) %>
+    <div class="panel clearfix <%=(current_deployment == d['id']) ? 'panel-primary' : 'panel-default'%>">
+      <div class="panel-heading">
+        <span class="pull-left gravatar">
+          <img src="http://www.gravatar.com/avatar.php?gravatar_id=<%=commit_data['author_digest']%>" height="36"/>
+        </span>
+        <b><%=d['id']%></b>
+      </div>
+      <div class="panel-body">
+        <span class="btn-group pull-right">
+          <button type="button" class="btn btn-default dropdown-toggle commit-btn" data-toggle="dropdown">
+            <code><%=h d['sha1']%></code> <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="#" class="activate-deployment" id="<%=d['id']%>">Activate</a></li>
+            <li><a href="#">Show code</a></li>
+            <li class="divider"></li>
+            <li><a href="#">Remove</a></li>
+          </ul>
+        </span>
+        <h4 class="list-group-item-heading">
+          <%=h commit_data['message']%>
+        </h4>
+        <p class="list-group-item-text commit-author">
+        <span class="author"><%=h commit_data['author']%></span> created this deployment <time pubdate='pubdate'><%=DateTime.parse(d['created_at'])%></time>
+        </p>
+      </div>
+    </div>
+  <% end %>
+  </div>
+</div>
+<img src="/deployments/images/spinner.gif" style="display:none;"/>
