@@ -34,4 +34,4 @@ Endpoints:
   - Frontend: '/deployments'
     Backend: '/'
 
-Source-Url: https://github.com/mfojtik/openshift-origin-deploy-manager.git
+Source-Url: https://github.com/mfojtik/openshift-cartridge-deployment-admin.git
