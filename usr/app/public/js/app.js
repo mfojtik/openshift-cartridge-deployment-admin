@@ -12,6 +12,8 @@ $(function() {
     event.preventDefault();
     $.get("/deployments/"+$(this).attr('id')+"/diff", function(data) {
       var code_div = $(this).closest("div.panel-body").children("div.code");
+      console.log(code_div);
+      console.log(data);
       $(code_div).children("pre").html(data);
       code_div.slideDown("fast");
     });
