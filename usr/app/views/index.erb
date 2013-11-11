@@ -45,11 +45,18 @@
   <div class="col-sm-3">
     <div class="panel panel-warning">
       <div class="panel-heading">
-        <h3 class="panel-title">Application <span class="label label-default"><a href="<%=application['data']['git_url']%>">GIT</a></span></h3>
+        <h3 class="panel-title">Application <span class="label label-default"></span></h3>
       </div>
       <div class="panel-body">
         <strong>Framework:</strong> <%=application['data']['framework']%><br/>
-        <strong>Size:</strong> <%=application['data']['gear_count']%><br/>
+        <strong>Size:</strong> <%=application['data']['gear_count']%> gears<br/>
+        <strong>Deployments</strong>
+        <div class="progress">
+          <% usage = deployments['data'].size.to_i/application['data']['keep_deployments'].to_f * 100 %>
+          <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="<%=deployments['data'].size%>" aria-valuemin="0" aria-valuemax="<%=application['data']['keep_deployments']%>" style="width: <%=usage%>%">
+            <span class="sr-only">Using <%=usage%>% of you deployments</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
