@@ -11,8 +11,9 @@ $(function() {
   $("a.show-diff").click(function(event) {
     event.preventDefault();
     $.get("/deployments/"+$(this).attr('id')+"/diff", function(data) {
-      $(this).closest("div.code pre").html(data);
-      $(this).closest("div.code").slideDown("fast");
+      var code_div = $(this).closest("div.panel-body").children("div.code");
+      $(code_div).children("pre").html(data);
+      code.div.slideDown("fast");
     });
   })
 });
