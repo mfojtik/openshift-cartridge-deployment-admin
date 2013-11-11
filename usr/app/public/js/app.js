@@ -13,7 +13,7 @@ $(function() {
     $.get("/deployments/"+$(this).attr('id')+"/diff", function(data) {
       var code_div = $(this).closest("div.panel-body").children("div.code");
       $(code_div).children("pre").html(data);
-      code.div.slideDown("fast");
+      code_div.slideDown("fast");
     });
   })
 });
