@@ -26,7 +26,7 @@
           </button>
           <ul class="dropdown-menu" role="menu">
             <li><a href="#" class="activate-deployment" id="<%=d['id']%>">Activate</a></li>
-            <li><a href="#">Show code</a></li>
+            <li><a href="#" class="show-diff" id="<%=d['sha1']%>">Show code</a></li>
             <li class="divider"></li>
             <li><a href="#">Remove</a></li>
           </ul>
@@ -38,6 +38,7 @@
         <p class="list-group-item-text commit-author">
         <span class="author"><%=h commit_data['author']%></span> created this deployment <time pubdate='pubdate'><%=DateTime.parse(d['created_at'])%></time>
         </p>
+        <div class="code" style="display:none;"><pre></pre></div>
       </div>
     </div>
   <% end %>

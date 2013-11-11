@@ -18,4 +18,8 @@ class DeploymentsApp < Sinatra::Base
     activate_deployment(params[:id])
   end
 
+  get '/:id/diff' do
+    diff params[:id]
+  end
+
 end

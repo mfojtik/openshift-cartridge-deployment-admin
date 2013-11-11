@@ -3,13 +3,19 @@ module DeploymentsHelper
   require 'digest/md5'
 
   def commit(commit_id)
-    Dir.chdir(File.join(ENV['OPENSHIFT_HOMEDIR'], 'git', "#{ENV['OPENSHIFT_APP_NAME']}.git")) do
+    in_repo_dir do
       parse_git_commit %x[git show -s --pretty=full #{commit_id}]
     end
   end
 
+  def diff(commit_id)
+    in_repo_dir do
+      %x[git show --oneline #{commit_id}]
+    end
+  end
+
   def current_deployment
-    @current_deployment ||= Dir.chdir(ENV['OPENSHIFT_DEPLOYMENTS_DIR']) do
+    @current_deployment ||= in_deployments_dir do
       curr_ts = File.readlink('current') if File.exists?('current')
       result = Dir.glob('by-id/*').find { |f| File.readlink(f) == "../#{curr_ts}"}
       result.gsub(/^by\-id\//, '') if result
@@ -21,6 +27,18 @@ module DeploymentsHelper
   end
 
   private
+
+  def in_repo_dir
+    Dir.chdir(File.join(ENV['OPENSHIFT_HOMEDIR'], 'git', "#{ENV['OPENSHIFT_APP_NAME']}.git")) do
+      yield
+    end
+  end
+
+  def in_deployments_dir
+    Dir.chdir(ENV['OPENSHIFT_DEPLOYMENTS_DIR']) do
+      yield
+    end
+  end
 
   def parse_git_commit(commit)
     data = commit.split("\n")
